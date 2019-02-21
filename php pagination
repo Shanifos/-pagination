@@ -1,0 +1,31 @@
+	function pagination($page,$url,$query){
+ 	$stmt = $this->conn->prepare($query);
+		$stmt->execute();
+ 		$limit = 20;
+		$total_records =$stmt->rowCount();
+ 		$total_pages = ceil( $total_records/$limit);
+ 		$currentpage = $page;
+
+ 		$prev = $page -1;
+ 		$next = $page + 1;
+ 		$endLink = $total_pages;
+			$pageLink = "";
+	//this diplays a prev button if you are on page 2 or higher
+		 if($prev >=1 ){
+		$pageLink .= "<li class='page-item'><a class='page-link' href='". $url. "?page=" .$prev ."'> Prev</a></li>";
+		 		
+		 	 }
+ 			  for($i=1 ; $i <=$endLink; $i++){
+		 		if($currentpage == $i){
+		 		$pageLink .=" <li class='page-item activelink'>" . $i . "</li>";
+		 		}
+		 		else{
+				$pageLink .=" <li class='page-item'><a class='page-link' href='". $url. "?page=" . $i ."'>" . $i . "</a></li>";
+				}
+			 }
+		 	//this diplays a next button until for page one to the second to last page
+		 	 if($next <=$total_pages && $total_pages >=2){
+		 	 $pageLink .= "<li class='page-item'><a class='page-link' href='". $url. "?page=" .$next ."'>Next</a></li>";
+			 }
+			 return $pageLink;
+		 	}
